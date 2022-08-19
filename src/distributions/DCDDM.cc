@@ -12,21 +12,16 @@
 #include <cmath>
 #include <JRmath.h>
 #include <stdio.h>
-#include <gsl/gsl_sf_bessel.h>
 
 using std::vector;
 using std::log;
-using std::min;
-using std::max;
 using std::string;
-using std::abs;
 
 static inline double DRIFT (vector<double const*> const &par) { return *par[0]; }
 static inline double BOUND (vector<double const*> const &par) { return *par[1]; }
 static inline double TZERO (vector<double const*> const &par) { return *par[2]; }
 static inline double THETA (vector<double const*> const &par) { return *par[3]; }
 
-const double pi = 3.141592653589793;
 const double inv2pi = 0.159154943091895;
 const double log2pi = 1.837877066409345;
 
