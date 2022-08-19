@@ -1,0 +1,9 @@
+@article{wabersich2014extending,
+  title     = {Extending JAGS: A tutorial on adding custom distributions to JAGS (with a diffusion model example)},
+  author    = {Wabersich, D. and Vandekerckhove, J.},
+  journal   = {Behavior Research Methods},
+  year      = {2014},
+  volume    = {46},
+  pages     = {15-28},
+  doi       = {10.3758/s13428-013-0369-3},
+}
