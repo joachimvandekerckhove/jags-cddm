@@ -1,6 +1,6 @@
 #!/bin/bash
 
-autoreconf -fvi && ./configure
+autoreconf -fvi && ./configure --prefix=/usr
 
 make && sudo make install
 
