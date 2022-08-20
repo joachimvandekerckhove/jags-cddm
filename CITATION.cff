@@ -1,9 +1,25 @@
-@article{wabersich2014extending,
-  title     = {Extending JAGS: A tutorial on adding custom distributions to JAGS (with a diffusion model example)},
-  author    = {Wabersich, D. and Vandekerckhove, J.},
-  journal   = {Behavior Research Methods},
-  year      = {2014},
-  volume    = {46},
-  pages     = {15-28},
-  doi       = {10.3758/s13428-013-0369-3},
-}
+cff-version: 1.2.0
+message: "If you use this software, please cite the article below for the method behind building it."
+authors:
+- family-names: "Vandekerckhove"
+  given-names: "Joachim"
+  orcid: "https://orcid.org/0000-0003-2600-5937"
+title: "jags-cddm"
+date-released: 2022-08-18
+version: 0.0.2
+url: "https://github.com/joachimvandekerckhove/jags-cddm"
+preferred-citation:
+  type: article
+  authors:
+  - family-names: "Wabersich"
+    given-names: "Dominik"
+  - family-names: "Vandekerckhove"
+    given-names: "Joachim"
+    orcid: "https://orcid.org/0000-0003-2600-5937"
+  doi: "10.3758/s13428-013-0369-3"
+  journal: "Behavior Research Methods"
+  start: 15
+  end: 28
+  title: "Extending JAGS: A tutorial on adding custom distributions to JAGS (with a diffusion model example)"
+  volume: 46
+  year: 2014
