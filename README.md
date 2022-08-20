@@ -2,7 +2,7 @@
 
 Implements the circular drift diffusion model in JAGS.
 
-`git clone`, and 1./makedcddm.sh1 should install the module.
+`git clone`, and `./makedcddm.sh` should install the module.
 
 In JAGS, `load cddm` as a module.
 
