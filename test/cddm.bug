@@ -1,0 +1,19 @@
+
+            model{
+                  # Likelihood
+                    for (i in 1:N) {
+                         X[1:2,i] ~ dcddm(drift, bound, ter0, theta0)
+                    }
+                      
+                  # Priors
+                    drift ~ dnorm(0,1)T(0,)
+                    bound ~ dunif(0,2)
+                    ter0 ~ dexp(1)
+                    theta0 ~ dunif(0,6.283185)
+                  }
+
+# True parameters:
+#  drift  0.0120
+#  bound  7.5
+#  ter0   0.0
+#  theta0 0.4778
