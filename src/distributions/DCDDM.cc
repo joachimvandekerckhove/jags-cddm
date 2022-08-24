@@ -64,12 +64,16 @@ namespace jags {
 
 		unsigned int DCDDM::length(vector<unsigned int> const &len) const
 		{
-			return len[1];
+			return 2;
 		}
 
 		bool DCDDM::checkParameterLength(vector<unsigned int> const &len) const
 		{
-			return len[0] == 1 && len[1] == 2;
+			if (len[0] != 1) return 0;
+			if (len[1] != 1) return 0;
+			if (len[2] != 1) return 0;
+			if (len[3] != 1) return 0;
+			return 1;
 		}
 
 		bool DCDDM::checkParameterValue(vector<double const *> const &par,
@@ -117,6 +121,9 @@ namespace jags {
 				double const *lower, double const *upper,
 				RNG *rng) const
 		{
+                        x[0] = 0.0;
+                        x[1] = 0.5;
+			return;
 		}
 
 		void DCDDM::support(double *lower, double *upper, unsigned int length,
