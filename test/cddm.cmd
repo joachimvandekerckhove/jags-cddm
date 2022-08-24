@@ -1,9 +1,8 @@
 load dic
 load cddm
-model in "cddm.bug"
-data in "cddm.data"
+model in "test/cddm.bug"
+data in "test/cddm.data"
 compile, nchains(1)
-parameters in "cddm.init"
 initialize
 update 5
 monitor set drift, thin(1)
