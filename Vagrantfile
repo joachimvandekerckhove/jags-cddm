@@ -34,6 +34,10 @@ Vagrant.configure("2") do |config|
       cd /tmp/jags-module && \
           ./makedcddm.sh
 
+      echo === Download examples ===
+
+      git clone https://github.com/Adrifelcha/cddm-sampleFiles.git
+
       echo === Testing CDDM module ===
 
       echo 'load cddm' | jags
