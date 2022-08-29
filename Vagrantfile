@@ -29,10 +29,16 @@ Vagrant.configure("2") do |config|
           libtool* --assume-yes
           
       echo === Install CDDM module ===
-
-      git clone http://github.com/joachimvandekerckhove/jags-cddm /tmp/jags-module
-      cd /tmp/jags-module && \
+      
+      GDIR=/home/vagrant/jags-module
+      git clone http://github.com/joachimvandekerckhove/jags-cddm $GDIR
+      cd $GDIR && \
           ./makedcddm.sh
+
+      echo === Download examples ===
+
+      GDIR=/home/vagrant/cddm-sampleFiles
+      git clone https://github.com/Adrifelcha/cddm-sampleFiles $GDIR
 
       echo === Testing CDDM module ===
 
