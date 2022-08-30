@@ -27,16 +27,16 @@ const double log2pi = 1.837877066409345;
 
 const double j0_over_J1_of_j0[] =
 	{
-	    4.632258790135,	  -16.222888773363,	   31.879368549075,	  -50.725040837329,	   72.288431642146,
-	  -96.261541517516,	  122.422457831293,	 -150.601348143832,	  180.662766782011,	 -212.495395654835,
-	  246.005623833005,	 -281.113293752633,	  317.748755071080,	 -355.850750322746,	  395.364852593043,
-	 -436.242282572947,	  478.438994119497,	 -521.914954669778,	  566.633570148511,	 -612.561219063930,
-	  659.666870493437,	 -707.921767477820,	  757.299162089296,	 -807.774091808104,	  859.323189276189,
-	 -911.924519282403,	  965.557438162763,	-1020.202471801500,	 1075.841209183265,	-1132.456209036621,
-	 1190.030917568555,	-1248.549595651048,	 1307.997254107482,	-1368.359595975823,	 1429.622964810200,
-	-1491.774298232338,	 1554.801086066592,	-1618.691332492894,	 1683.433521734964,	-1749.016586870190,
-	 1815.429881405203,	-1882.663153309609,	 1950.706521241076,	-2019.550452729602,	 2089.185744118132,
-	-2159.603502081770,	 2230.795126569375,	-2302.752295029801,	 2375.466947800996,	-2448.931274553997
+ 	    1.041844e+00, 1.404196e-01, 1.165914e-02, 7.941334e-04, 4.865202e-05,
+ 	    2.790466e-06, 1.530105e-07, 8.120647e-09, 4.204391e-10, 2.134880e-11,
+	    1.067190e-12, 5.266376e-14, 2.570958e-15, 1.243643e-16, 5.968584e-18,
+	    2.844917e-19, 1.347894e-20, 6.352313e-22, 2.979549e-23, 1.391634e-24,
+	    6.474955e-26, 3.002217e-27, 1.387638e-28, 6.395233e-30, 2.939587e-31,
+	    1.347897e-32, 6.166633e-34, 2.815350e-35, 1.282843e-36, 5.834842e-38,
+	    2.649421e-39, 1.201119e-40, 5.437219e-42, 2.457888e-43, 1.109627e-44,
+	    5.003269e-46, 2.253318e-47, 1.013701e-48, 4.555557e-50, 2.045221e-51,
+	    9.173347e-53, 4.110778e-54, 1.840549e-55, 8.234077e-57, 3.680807e-58,
+	    1.644169e-59, 7.339043e-61, 3.273670e-62, 1.459302e-63, 6.501029e-65
 	};
 const double j0_squared[] =
 	{
@@ -105,14 +105,37 @@ namespace jags {
 			double theta = THETA(par);
 			double inva2 = 1.0 / (bound*bound);
 
-			double exponand, sum = 0.0;
+			double exponand, sum = 0.0, logPDF;
+/*
+			double mu1 = drift*cos(theta), mu2 = drift*sin(theta);
+			printf("mu1: %f = %f * cos(%f)\n", mu1, drift, theta);
+			printf("mu2: %f = %f * sin(%f)\n", mu2, drift, theta);
 
-			for (int i=0; i++; i<smax) {
-				exponand = -0.5 * (t - tzero) * inva2 * j0_squared[i];
-				sum += j0_over_J1_of_j0[i] * exp(exponand) ;
+			for (int i=0; i<smax; i++) {
+				exponand = j0_squared[i] * (t-tzero) * inva2 * -0.5;
+				sum += exp(exponand) * j0_over_J1_of_j0[i];
+				printf ("exponand = %f\n", exponand);
+				printf ("sum = %f\n", sum);
 			}
 
-			return -log2pi - 2*log(bound) + drift * bound * cos(c - theta) - 0.5 * drift * drift * (t - tzero) + log(sum);
+			logPDF = log(sum) + log(inva2);
+			printf("logPDF = %f\n", logPDF);
+			logPDF += bound*(mu1*cos(c)+mu2*sin(c));
+			printf("logPDF = %f\n", logPDF);
+			logPDF -= (drift*drift*(t-tzero))*0.5;
+			printf("logPDF = %f\n", logPDF);
+			return logPDF;
+*/
+			for (int i=0; i<smax; i++) {
+				exponand = -0.5 * (t - tzero) * inva2 * j0_squared[i];
+				sum += j0_over_J1_of_j0[i] * exp(exponand);
+				printf("exponand = %f\n", exponand);
+				printf("sum = %f\n", sum);
+			}
+
+			logPDF = -log2pi - 2*log(bound) + drift * bound * cos(c - theta) - 0.5 * drift * drift * (t - tzero) + log(sum);
+			printf("logPDF = %f\n", logPDF);
+			return logPDF;
 		}
 
 		void DCDDM::randomSample(double *x, unsigned int length,
