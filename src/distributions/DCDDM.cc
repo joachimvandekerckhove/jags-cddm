@@ -55,6 +55,7 @@ const double j0_squared[] =
 
 #define smax 50  /* Maximum number of steps in infinite sum */
 
+#define DEBUG FALSE
 
 namespace jags {
 	namespace cddm {
@@ -70,6 +71,8 @@ namespace jags {
 
 		bool DCDDM::checkParameterLength(vector<unsigned int> const &len) const
 		{
+			if (DEBUG) printf("checkParameterLength() has been called\n");
+
 			if (len[0] != 1) return 0;
 			if (len[1] != 1) return 0;
 			if (len[2] != 1) return 0;
@@ -80,6 +83,8 @@ namespace jags {
 		bool DCDDM::checkParameterValue(vector<double const *> const &par,
 				vector<unsigned int> const &len) const
 		{
+			if (DEBUG) printf("checkParameterValue() has been called\n");
+
 			double drift = DRIFT(par);
 			double bound = BOUND(par);
 			double tzero = TZERO(par);
@@ -105,40 +110,29 @@ namespace jags {
 			double tzero = TZERO(par);
 			double theta = THETA(par);
 			double inva2 = 1.0 / (bound*bound);
-/*
-			printf("c: %f | t: %f\n", c, t);
-			printf("drift: %f | bound: %f | tzero %f | theta %f\n", drift,bound,tzero,theta);
-*/
+
+			if (DEBUG) printf("c: %f | t: %f\n", c, t);
+			if (DEBUG) printf("drift: %f | bound: %f | tzero %f | theta %f\n", drift,bound,tzero,theta);
+
 			double exponand, sum = 0.0, logPDF;
 
 			double mu1 = drift*cos(theta), mu2 = drift*sin(theta);
-/*			printf("mu1: %f = %f * cos(%f)\n", mu1, drift, theta);
-			printf("mu2: %f = %f * sin(%f)\n", mu2, drift, theta);
-*/
+			if (DEBUG) printf("mu1: %f = %f * cos(%f)\n", mu1, drift, theta);
+			if (DEBUG) printf("mu2: %f = %f * sin(%f)\n", mu2, drift, theta);
+
 			for (int i=0; i<smax; i++) {
 				exponand = j0_squared[i] * (t-tzero) * inva2 * -0.5;
 				sum += exp(exponand) * j0_over_J1_of_j0[i];
-/*
-				printf ("exponand = %f\n", exponand);
-				printf ("sum = %f\n", sum);
-*/
+				if (DEBUG) printf("exponand = %f\n", exponand);
+				if (DEBUG) printf("sum = %f\n", sum);
 			}
 
 			logPDF = log(sum) + log(inva2);
 			logPDF += bound*(mu1*cos(c)+mu2*sin(c));
 			logPDF -= (drift*drift*(t-tzero))*0.5;
-/*
-			printf("logPDF = %f\n", logPDF);
-*/
+			if (DEBUG) printf("logPDF = %f\n", logPDF);
 			return logPDF;
 /*
-			for (int i=0; i<smax; i++) {
-				exponand = -0.5 * (t - tzero) * inva2 * j0_squared[i];
-				sum += j0_over_J1_of_j0[i] * exp(exponand);
-				printf("exponand = %f\n", exponand);
-				printf("sum = %f\n", sum);
-			}
-
 			logPDF = -log2pi - 2*log(bound) + drift * bound * cos(c - theta) - 0.5 * drift * drift * (t - tzero) + log(sum);
 			printf("logPDF = %f\n", logPDF);
 			return logPDF;
