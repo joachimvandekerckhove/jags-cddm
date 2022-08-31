@@ -27,17 +27,18 @@ const double log2pi = 1.837877066409345;
 
 const double j0_over_J1_of_j0[] =
 	{
- 	    1.041844e+00, 1.404196e-01, 1.165914e-02, 7.941334e-04, 4.865202e-05,
- 	    2.790466e-06, 1.530105e-07, 8.120647e-09, 4.204391e-10, 2.134880e-11,
-	    1.067190e-12, 5.266376e-14, 2.570958e-15, 1.243643e-16, 5.968584e-18,
-	    2.844917e-19, 1.347894e-20, 6.352313e-22, 2.979549e-23, 1.391634e-24,
-	    6.474955e-26, 3.002217e-27, 1.387638e-28, 6.395233e-30, 2.939587e-31,
-	    1.347897e-32, 6.166633e-34, 2.815350e-35, 1.282843e-36, 5.834842e-38,
-	    2.649421e-39, 1.201119e-40, 5.437219e-42, 2.457888e-43, 1.109627e-44,
-	    5.003269e-46, 2.253318e-47, 1.013701e-48, 4.555557e-50, 2.045221e-51,
-	    9.173347e-53, 4.110778e-54, 1.840549e-55, 8.234077e-57, 3.680807e-58,
-	    1.644169e-59, 7.339043e-61, 3.273670e-62, 1.459302e-63, 6.501029e-65
+		4.632259e+00, -1.622289e+01,  3.187937e+01, -5.072504e+01,  7.228843e+01,
+	       -9.626154e+01,  1.224225e+02, -1.506013e+02,  1.806628e+02, -2.124954e+02,
+		2.460056e+02, -2.811133e+02,  3.177488e+02, -3.558508e+02,  3.953649e+02,
+	       -4.362423e+02,  4.784390e+02, -5.219150e+02,  5.666336e+02, -6.125612e+02,
+		6.596669e+02, -7.079218e+02,  7.572992e+02, -8.077741e+02,  8.593232e+02,
+	       -9.119245e+02,  9.655574e+02, -1.020202e+03,  1.075841e+03, -1.132456e+03,
+		1.190031e+03, -1.248550e+03,  1.307997e+03, -1.368360e+03,  1.429623e+03,
+	       -1.491774e+03,  1.554801e+03, -1.618691e+03,  1.683434e+03, -1.749017e+03,
+		1.815430e+03, -1.882663e+03,  1.950707e+03, -2.019550e+03,  2.089186e+03,
+	       -2.159604e+03,  2.230795e+03, -2.302752e+03,  2.375467e+03, -2.448931e+03,
 	};
+
 const double j0_squared[] =
 	{
 	    5.783185962947,	   30.471262343662,	   74.887006790695,	  139.040284426460,	  222.932303617634,
@@ -104,13 +105,16 @@ namespace jags {
 			double tzero = TZERO(par);
 			double theta = THETA(par);
 			double inva2 = 1.0 / (bound*bound);
-
-			double exponand, sum = 0.0, logPDF;
 /*
-			double mu1 = drift*cos(theta), mu2 = drift*sin(theta);
-			printf("mu1: %f = %f * cos(%f)\n", mu1, drift, theta);
-			printf("mu2: %f = %f * sin(%f)\n", mu2, drift, theta);
+			printf("c: %f | t: %f\n", c, t);
+			printf("drift: %f | bound: %f | tzero %f | theta %f\n", drift,bound,tzero,theta);
+*/
+			double exponand, sum = 0.0, logPDF;
 
+			double mu1 = drift*cos(theta), mu2 = drift*sin(theta);
+/*			printf("mu1: %f = %f * cos(%f)\n", mu1, drift, theta);
+			printf("mu2: %f = %f * sin(%f)\n", mu2, drift, theta);
+*/
 			for (int i=0; i<smax; i++) {
 				exponand = j0_squared[i] * (t-tzero) * inva2 * -0.5;
 				sum += exp(exponand) * j0_over_J1_of_j0[i];
@@ -119,13 +123,13 @@ namespace jags {
 			}
 
 			logPDF = log(sum) + log(inva2);
-			printf("logPDF = %f\n", logPDF);
 			logPDF += bound*(mu1*cos(c)+mu2*sin(c));
-			printf("logPDF = %f\n", logPDF);
 			logPDF -= (drift*drift*(t-tzero))*0.5;
+/*
 			printf("logPDF = %f\n", logPDF);
-			return logPDF;
 */
+			return logPDF;
+/*
 			for (int i=0; i<smax; i++) {
 				exponand = -0.5 * (t - tzero) * inva2 * j0_squared[i];
 				sum += j0_over_J1_of_j0[i] * exp(exponand);
@@ -136,6 +140,7 @@ namespace jags {
 			logPDF = -log2pi - 2*log(bound) + drift * bound * cos(c - theta) - 0.5 * drift * drift * (t - tzero) + log(sum);
 			printf("logPDF = %f\n", logPDF);
 			return logPDF;
+*/
 		}
 
 		void DCDDM::randomSample(double *x, unsigned int length,
