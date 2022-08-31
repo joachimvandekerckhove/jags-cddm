@@ -118,8 +118,10 @@ namespace jags {
 			for (int i=0; i<smax; i++) {
 				exponand = j0_squared[i] * (t-tzero) * inva2 * -0.5;
 				sum += exp(exponand) * j0_over_J1_of_j0[i];
+/*
 				printf ("exponand = %f\n", exponand);
 				printf ("sum = %f\n", sum);
+*/
 			}
 
 			logPDF = log(sum) + log(inva2);
