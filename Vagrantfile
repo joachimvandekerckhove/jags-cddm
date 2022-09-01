@@ -48,18 +48,19 @@ Vagrant.configure("2") do |config|
   
       echo === Set up github ===
       
-      # Obtain the deploy key!
+      # Obtain the user's key for github
       HOME=/home/vagrant
       mkdir -p $HOME/.ssh/
       cp /srv/host/id_rsa $HOME/.ssh/
 
-      # Configure git:
-cat <<- EOF > $HOME/.ssh/config
+      # Configure git
+      cat <<- EOF > $HOME/.ssh/config
 	Host github.com
 	  User git
 	  Hostname github.com
 	  IdentityFile ~/.ssh/id_rsa
-EOF
+      EOF
+
       chmod 600 ~/.ssh/id_rsa
       git config --global user.name "$1"
       git config --global user.email "$2"

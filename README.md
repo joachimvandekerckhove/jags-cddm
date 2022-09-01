@@ -11,6 +11,7 @@ In JAGS, `load cddm` as a module.
 ## Vagrantfile
 
 If you use Vagrant, the Vagrantfile spawns a VM that installs and tests this module.
+May require a GitHub account with associated keyfile.
 
 ## Pre-release
 
