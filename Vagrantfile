@@ -18,7 +18,8 @@ Vagrant.configure("2") do |config|
   config.vm.hostname = "cddm-haver"
   config.vm.define "cddm-haver"
   config.vm.synced_folder ".", "/srv/host/"
-  
+  config.vm.network "forwarded_port", guest: 8787, host: 8788
+
   config.vm.provider "virtualbox" do |vb|
     vb.memory = "2048"
     vb.cpus = 2
@@ -59,7 +60,7 @@ Vagrant.configure("2") do |config|
 	  User git
 	  Hostname github.com
 	  IdentityFile ~/.ssh/id_rsa
-      EOF
+EOF
 
       chmod 600 ~/.ssh/id_rsa
       git config --global user.name "$1"
@@ -93,6 +94,14 @@ Vagrant.configure("2") do |config|
       
       echo "alias sl='ls -ltr'" >> ~/.bashrc
       echo "alias scx='screen -x'" >> ~/.bashrc
-      
+
+
+      echo === Install RStudio Server ===
+
+      cd /tmp
+      wget https://download2.rstudio.org/server/bionic/amd64/rstudio-server-1.3.1093-amd64.deb
+      sudo apt install ./rstudio-server-1.3.1093-amd64.deb --assume-yes
+      R -e "install.packages('R2jags')"
+
   SHELL
 end

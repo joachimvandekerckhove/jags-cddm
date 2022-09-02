@@ -1,3 +1,7 @@
+# Vagrant
+.vagrant/
+id_rsa*
+
 # Prerequisites
 *.d
 
