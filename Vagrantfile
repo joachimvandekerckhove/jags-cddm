@@ -72,22 +72,27 @@ EOF
       
       echo === Install CDDM module ===
       
-      GDIR=$HOME/jags-module
-      git clone http://github.com/joachimvandekerckhove/jags-cddm $GDIR
-      cd $GDIR && \
-          ./makedcddm.sh
+      cd $HOME
+      git clone git@github.com:joachimvandekerckhove/jags-cddm.git
+      cd jags-cddm && ./makedcddm.sh
+
+
+      echo === Install von Mises module ===
+
+      cd /tmp
+      git clone git@github.com:yeagle/jags-vonmises.git
+      cd jags-vonmises && \
+          autoreconf -fvi && \
+          ./configure --prefix /usr && \
+          make && \
+          sudo make install
+          sudo cp /usr/lib/JAGS/modules-4/vonmises.* /usr/lib/x86_64-linux-gnu/JAGS/modules-4/ #todo
           
           
       echo === Download examples ===
       
-      GDIR=$HOME/cddm-sampleFiles
-      git clone https://github.com/Adrifelcha/cddm-sampleFiles $GDIR
-      
-      
-      echo === Testing CDDM module ===
-      
-      echo 'load cddm' | jags
-      git config -l
+      cd $HOME
+      git clone git@github.com:Adrifelcha/cddm-sampleFiles.git
       
       
       echo === Convenience aliases ===
@@ -100,8 +105,15 @@ EOF
 
       cd /tmp
       wget https://download2.rstudio.org/server/bionic/amd64/rstudio-server-1.3.1093-amd64.deb
-      sudo apt install ./rstudio-server-1.3.1093-amd64.deb --assume-yes
-      R -e "install.packages('R2jags')"
+      sudo apt-get install ./rstudio-server-1.3.1093-amd64.deb --assume-yes
+      sudo R -e "install.packages('R2jags')"
+
+
+      echo === Testing ===
+
+      echo 'load cddm' | jags
+      echo 'load vonmises' | jags
+      git config -l
 
   SHELL
 end
