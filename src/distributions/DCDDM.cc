@@ -73,11 +73,11 @@ namespace jags {
 		{
 			if (DEBUG) printf("checkParameterLength() has been called\n");
 
-			if (len[0] != 1) return 0;
-			if (len[1] != 1) return 0;
-			if (len[2] != 1) return 0;
-			if (len[3] != 1) return 0;
-			return 1;
+			if (len[0] != 1)  return false;
+			if (len[1] != 1)  return false;
+			if (len[2] != 1)  return false;
+			if (len[3] != 1)  return false;
+			return true;
 		}
 
 		bool DCDDM::checkParameterValue(vector<double const *> const &par,
@@ -90,8 +90,8 @@ namespace jags {
 			double tzero = TZERO(par);
 			double theta = THETA(par);
 
-			if (tzero < 0) return false;
-			if (bound < 0) return false;
+			if (tzero < 0)  return false;
+			if (bound < 0)  return false;
 
 			return true;
 		}
@@ -131,12 +131,8 @@ namespace jags {
 			logPDF += bound*(mu1*cos(c)+mu2*sin(c));
 			logPDF -= (drift*drift*(t-tzero))*0.5;
 			if (DEBUG) printf("logPDF = %f\n", logPDF);
-			return logPDF;
-/*
-			logPDF = -log2pi - 2*log(bound) + drift * bound * cos(c - theta) - 0.5 * drift * drift * (t - tzero) + log(sum);
-			printf("logPDF = %f\n", logPDF);
-			return logPDF;
-*/
+
+			return isnan(logPDF) ? JAGS_NEGINF : logPDF;
 		}
 
 		void DCDDM::randomSample(double *x, unsigned int length,
