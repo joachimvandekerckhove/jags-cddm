@@ -22,7 +22,7 @@ Vagrant.configure("2") do |config|
 
   config.vm.provider "virtualbox" do |vb|
     vb.memory = "2048"
-    vb.cpus = 2
+    vb.cpus = 5
   end
   
   config.vm.provision "shell",
@@ -107,6 +107,7 @@ EOF
       wget https://download2.rstudio.org/server/bionic/amd64/rstudio-server-1.3.1093-amd64.deb
       sudo apt-get install ./rstudio-server-1.3.1093-amd64.deb --assume-yes
       sudo R -e "install.packages('R2jags')"
+      sudo R -e "install.packages('magrittr')"
 
 
       echo === Testing ===
