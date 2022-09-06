@@ -46,7 +46,6 @@ Vagrant.configure("2") do |config|
           libblas-dev liblapack-dev libpcre3-dev libreadline-dev libgsl-dev \
           libtool* --assume-yes
   
-  
       echo === Set up github ===
       
       # Obtain the user's key for github
@@ -108,6 +107,8 @@ EOF
       sudo apt-get install ./rstudio-server-1.3.1093-amd64.deb --assume-yes
       sudo R -e "install.packages('R2jags')"
       sudo R -e "install.packages('magrittr')"
+      sudo R -e "install.packages('readr')"
+      sudo R -e "install.packages('posterior')"
 
 
       echo === Testing ===
