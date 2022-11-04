@@ -14,7 +14,7 @@ namespace jags {
 	 * <pre>
          * X[i,1] <- choice (in radians)
          * X[i,2] <- response time (in seconds)
-         * X[i,1:2] ~ dcddm(drift, bound, tzero, theta)
+         * X[i,1:2] ~ dcddm(xdrift, ydrift, bound, tzero)
 	 * </pre>
          *
 	 * @short circular drift diffusion model
