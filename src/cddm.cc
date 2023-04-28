@@ -22,7 +22,8 @@
  *
  */
 #include <module/Module.h>
-#include <distributions/DCDDM.h>
+#include <distributions/DCDDMCARTN.h>
+#include <distributions/DCDDMPOLAR.h>
 
 using std::vector;
 
@@ -37,10 +38,9 @@ class CDDMModule : public Module {
 
 CDDMModule::CDDMModule() : Module("cddm")
 {
-  DCDDM *cddmdist;
-  cddmdist = new DCDDM();
   //load distributions
-  insert(cddmdist);
+  insert(new DCDDMCARTN());
+  insert(new DCDDMPOLAR());
 }
 
 CDDMModule::~CDDMModule()

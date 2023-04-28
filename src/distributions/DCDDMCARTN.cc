@@ -4,7 +4,7 @@
 */
 
 #include <config.h>
-#include "DCDDM.h"
+#include "DCDDMCARTN.h"
 
 #include <util/dim.h>
 #include <rng/RNG.h>
@@ -60,16 +60,16 @@ const double j0_squared[] =
 namespace jags {
 	namespace cddm {
 
-		DCDDM::DCDDM()
-			: VectorDist("dcddm", 4)
+		DCDDMCARTN::DCDDMCARTN()
+			: VectorDist("dcddmcartn", 4)
 		{}
 
-		unsigned int DCDDM::length(vector<unsigned int> const &len) const
+		unsigned int DCDDMCARTN::length(vector<unsigned int> const &len) const
 		{
 			return 2;
 		}
 
-		bool DCDDM::checkParameterLength(vector<unsigned int> const &len) const
+		bool DCDDMCARTN::checkParameterLength(vector<unsigned int> const &len) const
 		{
 			if (DEBUG) printf("checkParameterLength() has been called\n");
 
@@ -80,7 +80,7 @@ namespace jags {
 			return true;
 		}
 
-		bool DCDDM::checkParameterValue(vector<double const *> const &par,
+		bool DCDDMCARTN::checkParameterValue(vector<double const *> const &par,
 				vector<unsigned int> const &len) const
 		{
 			if (DEBUG) printf("checkParameterValue() has been called\n");
@@ -96,7 +96,7 @@ namespace jags {
 			return true;
 		}
 
-		double DCDDM::logDensity(double const *x, unsigned int length,
+		double DCDDMCARTN::logDensity(double const *x, unsigned int length,
 				PDFType type,
 				vector<double const *> const &par,
 				vector<unsigned int> const &len,
@@ -135,7 +135,7 @@ namespace jags {
 			return isnan(logPDF) ? JAGS_NEGINF : logPDF;
 		}
 
-		void DCDDM::randomSample(double *x, unsigned int length,
+		void DCDDMCARTN::randomSample(double *x, unsigned int length,
 				vector<double const *> const &par,
 				vector<unsigned int> const &len,
 				double const *lower, double const *upper,
@@ -146,7 +146,7 @@ namespace jags {
 			return;
 		}
 
-		void DCDDM::support(double *lower, double *upper, unsigned int length,
+		void DCDDMCARTN::support(double *lower, double *upper, unsigned int length,
 			   vector<double const *> const &par,
 			   vector<unsigned int> const &len) const
 		{
@@ -156,7 +156,7 @@ namespace jags {
 			upper[1] = JAGS_POSINF;
 		}
 
-		void DCDDM::typicalValue(double *x, unsigned int length,
+		void DCDDMCARTN::typicalValue(double *x, unsigned int length,
 				vector<double const *> const &par,
 				vector<unsigned int> const &len,
 				double const *lower, double const *upper) const
@@ -165,12 +165,12 @@ namespace jags {
 			x[1] = 0.5;
 		}
 
-		bool DCDDM::isSupportFixed(vector<bool> const &fixmask) const
+		bool DCDDMCARTN::isSupportFixed(vector<bool> const &fixmask) const
 		{
-			return true;
+			return fixmask[2];
 		}
 
-		unsigned int DCDDM::df(vector<unsigned int> const &len) const
+		unsigned int DCDDMCARTN::df(vector<unsigned int> const &len) const
 		{
 			return 1;
 		}

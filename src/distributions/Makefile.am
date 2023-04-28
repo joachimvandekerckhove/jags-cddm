@@ -4,6 +4,8 @@ cddmdist_la_CPPFLAGS = -I$(top_srcdir)/src -I$(includedir)/JAGS
 
 cddmdist_la_LDFLAGS = -no-undefined -module -avoid-version
 
-cddmdist_la_SOURCES = DCDDM.cc
+cddmdist_la_SOURCES = DCDDMCARTN.cc
+cddmdist_la_SOURCES += DCDDMPOLAR.cc
 
-noinst_HEADERS = DCDDM.h
+noinst_HEADERS = DCDDMCARTN.h
+noinst_HEADERS += DCDDMPOLAR.h

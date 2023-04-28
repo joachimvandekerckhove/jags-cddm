@@ -1,6 +1,6 @@
 /*  This class contains functions for the cddm (diffusion) model */
-#ifndef DCDDM_H_
-#define DCDDM_H_
+#ifndef DCDDMCARTN_H_
+#define DCDDMCARTN_H_
 
 #include <distribution/VectorDist.h>
 
@@ -20,10 +20,10 @@ namespace jags {
 	 * @short circular drift diffusion model
 	 */
 
-		class DCDDM : public VectorDist
+		class DCDDMCARTN : public VectorDist
 		{
 		public:
-			DCDDM();
+			DCDDMCARTN();
 
 			unsigned int length(std::vector<unsigned int> const &len) const;
 
@@ -61,4 +61,4 @@ namespace jags {
 	} //namespace cddm
 } //namespace jags
 
-#endif /* DCDDM_H_ */
+#endif /* DCDDMCARTN_H_ */
