@@ -19,8 +19,6 @@ using std::string;
 
 #define smax 50  /* Maximum number of steps in infinite sum */
 
-#define DEBUG FALSE
-
 namespace jags {
 	namespace cddm {
 
@@ -60,30 +58,21 @@ namespace jags {
 				double const bound,
 				double const ndt)
 		{
-			double inva2 = 1.0 / (bound*bound);
-
-			if (DEBUG) printf("c: %f | t: %f\n", c, t);
-			if (DEBUG) printf("drift: %f | bound: %f | tzero %f | theta %f\n", drift,bound,tzero,theta);
+			double inva2 = 1.0 / (bound * bound);
 
 			double exponand, sum = 0.0, logPDF;
 
 			double mu1 = driftlength * cos(driftangle),
 			       mu2 = driftlength * sin(driftangle);
 
-			if (DEBUG) printf("mu1: %f = %f * cos(%f)\n", mu1, drift, theta);
-			if (DEBUG) printf("mu2: %f = %f * sin(%f)\n", mu2, drift, theta);
-
 			for (int i=0; i<smax; i++) {
 				exponand = j0_squared[i] * (t - ndt) * inva2 * -0.5;
 				sum += exp(exponand) * j0_over_J1_of_j0[i];
-				if (DEBUG) printf("exponand = %f\n", exponand);
-				if (DEBUG) printf("sum = %f\n", sum);
 			}
 
 			logPDF = log(sum) + log(inva2);
-			logPDF += bound * (mu1*cos(c) + mu2*sin(c));
+			logPDF += bound * (mu1 * cos(c) + mu2 * sin(c));
 			logPDF -= (driftlength * driftlength * (t - ndt)) * 0.5;
-			if (DEBUG) printf("logPDF = %f\n", logPDF);
 
 			return isnan(logPDF) ? JAGS_NEGINF : logPDF;
 		}

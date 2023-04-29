@@ -1,5 +1,7 @@
 /*  This class contains functions for the cddm (diffusion) model */
 
+#include <rng/RNG.h>
+
 namespace jags {
 
 	namespace cddm {

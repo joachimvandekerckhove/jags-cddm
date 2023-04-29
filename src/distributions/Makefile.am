@@ -6,6 +6,7 @@ cddmdist_la_LDFLAGS = -no-undefined -module -avoid-version
 
 cddmdist_la_SOURCES = DCDDMCARTN.cc
 cddmdist_la_SOURCES += DCDDMPOLAR.cc
+cddmdist_la_SOURCES += DCDDM.cc
 
 noinst_HEADERS = DCDDMCARTN.h
 noinst_HEADERS += DCDDMPOLAR.h

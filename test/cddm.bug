@@ -1,11 +1,18 @@
+data {
+	Y = X
+}
+
 model {
 
 	# Likelihood
 	for (i in 1:N) {
-		X[1:2,i] ~ dcddm(drift, bound, ter0, theta0)
+		X[1:2,i] ~ dcddmpolar(drift, theta0, bound, ter0)
+		Y[1:2,i] ~ dcddmcartn(driftx, drifty, bound, ter0)
 	}
 
 	# Priors
+	driftx ~ dnorm(0,1)
+	drifty ~ dnorm(0,1)
 	drift  ~ dnorm(0,1)T(0,)
 	bound  ~ dgamma(2,2)
 	ter0   ~ dexp(1)
