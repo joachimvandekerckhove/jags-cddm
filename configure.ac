@@ -9,7 +9,7 @@ AC_SUBST(JAGS_MAJOR)
 AC_SUBST(JAGS_MINOR)
 
 AC_CANONICAL_HOST
-AC_CONFIG_SRCDIR([src/distributions/DCDDM.cc])
+AC_CONFIG_SRCDIR([src/distributions/DCDDMPOLAR.cc])
 AC_CONFIG_MACRO_DIR([m4])
 AC_CONFIG_HEADERS([config.h])
 AM_INIT_AUTOMAKE([subdir-objects])
@@ -34,14 +34,13 @@ case "${host_os}" in
 esac
 AM_CONDITIONAL(WINDOWS, test x$win = xtrue)
 
-jagsmoddir=${libdir}/JAGS/modules-${JAGS_MAJOR}
+jagsmoddir=${libdir}/x86_64-linux-gnu/JAGS/modules-${JAGS_MAJOR}
 AC_SUBST(jagsmoddir)
 
 AC_CONFIG_FILES([
   Makefile
-  m4/Makefile
   libltdl/Makefile
   src/Makefile
-  src/distributions/Makefile	
+  src/distributions/Makefile
 ])
 AC_OUTPUT
