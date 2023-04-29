@@ -9,3 +9,4 @@ cddmdist_la_SOURCES += DCDDMPOLAR.cc
 
 noinst_HEADERS = DCDDMCARTN.h
 noinst_HEADERS += DCDDMPOLAR.h
+noinst_HEADERS += DCDDM.h
