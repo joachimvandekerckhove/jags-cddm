@@ -49,11 +49,21 @@ classdef cddm < handle
 
     end
 
-    properties  (Hidden, SetAccess = private)
+    properties  (Dependent, SetAccess = private)
+        trueDriftLength
+        trueDriftAngle
+    end
+
+    properties  (SetAccess = private)
         estDriftx
         estDrifty
         estBound
         estNondt
+        
+        estDriftLength
+        estDriftAngle
+        estBound2
+        estNondt2
 
         maxRhat
 
@@ -64,7 +74,7 @@ classdef cddm < handle
         data
     end
 
-    properties (Hidden)
+    properties %(Hidden)
         dt               = 0.001
         maxT             = 15
         driftCoefficient = 1
@@ -124,6 +134,14 @@ classdef cddm < handle
 
         end
 
+        function value = get.trueDriftLength(obj)
+            value = sqrt(obj.trueDriftx.^2 + obj.trueDrifty.^2);
+        end
+        
+        function value = get.trueDriftAngle(obj)
+            value = atan2(obj.trueDrifty, obj.trueDriftx);
+        end
+        
     end
 
     methods (Hidden)
@@ -149,28 +167,38 @@ classdef cddm < handle
                 '    tmin = 0.95 * min(X[2,])'
                 '    D = dim(X)'
                 '    N = D[2]'
+                '    Y = X'
                 '} '
                 ''
                 'model{'
                 '    # Likelihood'
                 '    for (i in 1:N) {'
-                '        X[1:2,i] ~ dcddm(driftx, drifty, bound, ter0)'
+                '        X[1:2,i] ~ dcddmcartn(driftx, drifty, bound, ter0)'
+                '        Y[1:2,i] ~ dcddmpolar(driftlength, driftangle, bound2, ter02)'
                 '    }'
                 '    # Priors'
                 '    driftx ~ dnorm(0.0, 1.0)'
                 '    drifty ~ dnorm(0.0, 1.0)'
                 '    bound  ~ dgamma(4, 1)'
                 '    ter0   ~ dexp(1)T(, tmin)'
+                '    driftlength ~ dchisq(2)'
+                '    driftangle  ~ dunif(0.0, 6.283)'
+                '    bound2 ~ dgamma(4, 1)'
+                '    ter02  ~ dexp(1)T(, tmin)'
                 '} '
             };
 
-            monitors = { 'driftx'  'drifty', 'bound'  'ter0' };
+            monitors = { 'driftx'  'drifty' 'bound'  'ter0'  'driftlength'  'driftangle' 'bound2'  'ter02' };
 
             generator = @()struct( ...
                 'driftx' , guess.driftx , ...
                 'drifty' , guess.drifty , ...
                 'bound'  , guess.bound * (rand/4+7/8) , ...
-                'ter0'   , min(obj.data.rt) * 0.9);
+                'ter0'   , min(obj.data.rt) * 0.9, ...
+                'driftlength' , guess.driftlength , ...
+                'driftangle'  , guess.driftangle , ...
+                'bound2'      , guess.bound * (rand/4+7/8) , ...
+                'ter02'       , min(obj.data.rt) * 0.9);
 
             generator = @()struct( ...
                 'bound'  , guess.bound * (rand/4+7/8));
@@ -180,7 +208,7 @@ classdef cddm < handle
                     obj.mcmc.stats, ...
                     obj.mcmc.chains, ...
                     obj.mcmc.diagnostics, ...
-                    obj.mcmc.information] = trinity.callbayes( ...
+                    obj.mcmc.information] = callbayes( ...
                     'jags', ...
                     'model'          ,         model , ...
                     'data'           ,    dataStruct , ...
@@ -212,6 +240,11 @@ classdef cddm < handle
                 obj.estDrifty = obj.mcmc.stats.mean.drifty;
                 obj.estNondt  = obj.mcmc.stats.mean.ter0;
 
+                obj.estDriftLength = obj.mcmc.stats.mean.driftlength;
+                obj.estBound2  = obj.mcmc.stats.mean.bound2;
+                obj.estDriftAngle = obj.mcmc.stats.mean.driftangle;
+                obj.estNondt2  = obj.mcmc.stats.mean.ter02;
+
                 obj.loDriftx = obj.mcmc.stats.lower.driftx;
                 obj.loBound  = obj.mcmc.stats.lower.bound;
                 obj.loDrifty = obj.mcmc.stats.lower.drifty;
@@ -221,8 +254,10 @@ classdef cddm < handle
                 obj.hiBound  = obj.mcmc.stats.upper.bound;
                 obj.hiDrifty = obj.mcmc.stats.upper.drifty;
                 obj.hiNondt  = obj.mcmc.stats.upper.ter0;
-
-                obj.maxRhat = max(struct2array(obj.mcmc.diagnostics.Rhat));
+                
+                c = struct2cell(obj.mcmc.diagnostics.Rhat);
+                
+                obj.maxRhat = max([c{:}]);
 
             catch me
                 disp( getReport( me, 'extended', 'hyperlinks', 'on' ) );
@@ -362,6 +397,22 @@ classdef cddm < handle
             out = cddm(rand, dx, dy, bo, nd, n);
             out.simulate();
             out.recover();
+            
+            fprintf(' + %8.4g +\n\n', out.maxRhat)
+            
+            fprintf(' + %8s + %12s + %12s +\n', '--------', '------------', '------------')
+            fprintf(' | %8s | %12.4g | %12.4g |\n', 'Driftx', out.trueDriftx, out.estDriftx)
+            fprintf(' | %8s | %12.4g | %12.4g |\n', 'Drifty', out.trueDrifty, out.estDrifty)
+            fprintf(' | %8s | %12.4g | %12.4g |\n', 'Bound' , out.trueBound, out.estBound)
+            fprintf(' | %8s | %12.4g | %12.4g |\n', 'Nondt' , out.trueNondt, out.estNondt)
+            fprintf(' + %8s + %12s + %12s +\n', '--------', '------------', '------------')
+            
+            fprintf(' + %8s + %12s + %12s +\n', '--------', '------------', '------------')
+            fprintf(' | %8s | %12.4g | %12.4g |\n', 'Driftx2', out.trueDriftLength, out.estDriftLength)
+            fprintf(' | %8s | %12.4g | %12.4g |\n', 'Drifty2', out.trueDriftAngle, out.estDriftAngle)
+            fprintf(' | %8s | %12.4g | %12.4g |\n', 'Bound2' , out.trueBound, out.estBound2)
+            fprintf(' | %8s | %12.4g | %12.4g |\n', 'Nondt2' , out.trueNondt, out.estNondt2)
+            fprintf(' + %8s + %12s + %12s +\n', '--------', '------------', '------------')
 
         end
 
