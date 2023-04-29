@@ -58,7 +58,7 @@ namespace jags {
 				double const driftlength,
 				double const driftangle,
 				double const bound,
-				double const ndt) const
+				double const ndt)
 		{
 			double inva2 = 1.0 / (bound*bound);
 
@@ -93,7 +93,7 @@ namespace jags {
 				double const driftangle,
 				double const bound,
 				double const ndt,
-				RNG *rng) const
+				RNG *rng)
 		{
                         x[0] = 0.0;
                         x[1] = 0.5;
