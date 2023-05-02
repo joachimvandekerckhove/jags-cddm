@@ -1,6 +1,6 @@
 #!/bin/bash
 
-cp -r /home/vagrant/jags-cddm /tmp/
+cp -r ../jags-cddm /tmp/
 
 cd /tmp/jags-cddm
 

@@ -24,6 +24,7 @@
 #include <module/Module.h>
 #include <distributions/DCDDMCARTN.h>
 #include <distributions/DCDDMPOLAR.h>
+#include <iostream>
 
 using std::vector;
 
@@ -38,9 +39,18 @@ class CDDMModule : public Module {
 
 CDDMModule::CDDMModule() : Module("cddm")
 {
+
+  std::cout << "\n"
+            << "  The JAGS-CDDM module is released under the LGPL v2.1 or later.\n"
+            << "  When using this module, please cite:\n"
+            << "     Wabersich, D., & Vandekerckhove, J. (2014). Extending JAGS: A\n"
+            << "        tutorial on adding custom distributions to JAGS (with a\n"
+            << "        diffusion model example). Behavior Research Methods, 46, 15-28.\n";
+
   //load distributions
   insert(new DCDDMCARTN());
   insert(new DCDDMPOLAR());
+
 }
 
 CDDMModule::~CDDMModule()

@@ -51,12 +51,60 @@ namespace jags {
 			20657.948854696686,	21570.887262096137,	22503.564878279212,	23455.981703247398,	24428.137737002071
 		};
 
-		double cddmLogDensity(double const c,
+		DCDDM::DCDDM(std::string const &call)
+			: VectorDist(call, 4)
+		{}
+		
+		unsigned int DCDDM::length(vector<unsigned int> const &len) const
+		{
+			return 2;
+		}
+
+		bool DCDDM::checkParameterLength(vector<unsigned int> const &len) const
+		{
+			if (len[0] != 1)  return false;
+			if (len[1] != 1)  return false;
+			if (len[2] != 1)  return false;
+			if (len[3] != 1)  return false;
+
+			return true;
+		}
+
+		void DCDDM::support(double *lower, double *upper, unsigned int length,
+			   vector<double const *> const &par,
+			   vector<unsigned int> const &len) const
+		{
+			lower[0] = JAGS_NEGINF;
+			upper[0] = JAGS_POSINF;
+			lower[1] = 0.0;
+			upper[1] = JAGS_POSINF;
+		}
+
+		void DCDDM::typicalValue(double *x, unsigned int length,
+				vector<double const *> const &par,
+				vector<unsigned int> const &len,
+				double const *lower, double const *upper) const
+		{
+			x[0] = 0.0;
+			x[1] = 0.5;
+		}
+
+		bool DCDDM::isSupportFixed(vector<bool> const &fixmask) const
+		{
+			return fixmask[3];
+		}
+
+		unsigned int DCDDM::df(vector<unsigned int> const &len) const
+		{
+			return 1;
+		}
+		
+		double DCDDM::cddmLogDensity(double const c,
 				double const t,
 				double const driftlength,
 				double const driftangle,
 				double const bound,
-				double const ndt)
+				double const ndt) const
 		{
 			double inva2 = 1.0 / (bound * bound);
 
@@ -77,12 +125,12 @@ namespace jags {
 			return isnan(logPDF) ? JAGS_NEGINF : logPDF;
 		}
 
-		void cddmRandomSample(double *x,
+		void DCDDM::cddmRandomSample(double *x,
 				double const driftlength,
 				double const driftangle,
 				double const bound,
 				double const ndt,
-				RNG *rng)
+				RNG *rng) const
 		{
                         x[0] = 0.0;
                         x[1] = 0.5;
