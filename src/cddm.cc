@@ -31,7 +31,7 @@ namespace jags {
 				<< "  The JAGS-CDDM module is released under the LGPL v2.1 or later.\n"
 				<< "  When using this module, please cite:\n"
 				<< "     Villarreal, M., Chávez De la Peña, A. F., Vandekerckhove, J. & Lee, M. D. (2023).\n"
-				<< "        Bayesian hierarchical circular drift diffusion models.\n";
+				<< "        Bayesian hierarchical circular drift diffusion models.\n"
 				<< "  Source: https://github.com/joachimvandekerckhove/jags-cddm\n";
 
 			//load distributions

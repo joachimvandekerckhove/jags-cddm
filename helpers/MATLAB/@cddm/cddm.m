@@ -395,7 +395,7 @@ classdef cddm < handle
 
             dx = rand;
             dy = randn;
-            bo = 1.0 + rand;
+            bo = 1/3;
             nd = 0.1 + rand/5;
 
             out = cddm(rand, dx, dy, bo, nd, n);
