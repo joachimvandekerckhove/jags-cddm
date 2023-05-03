@@ -148,7 +148,9 @@ classdef cddm < handle
 
         function [stats, chains, diagnostics, information] = recover(obj)
 
-            if ~exist('+trinity')
+            try
+                trinity install
+            catch me
                 error('cddm:recover:noTrinity', ...
                     'Trinity not found.  Get it here: https://github.com/joachimvandekerckhove/trinity')
             end
@@ -182,7 +184,7 @@ classdef cddm < handle
                 '    bound  ~ dgamma(4, 1)'
                 '    ter0   ~ dexp(1)T(, tmin)'
                 '    driftlength ~ dchisq(2)'
-                '    driftangle  ~ dunif(0.0, 6.283)'
+                '    driftangle  ~ dunif(-3.1415, 3.1415)'
                 '    bound2 ~ dgamma(4, 1)'
                 '    ter02  ~ dexp(1)T(, tmin)'
                 '} '
@@ -204,6 +206,7 @@ classdef cddm < handle
                 'bound'  , guess.bound * (rand/4+7/8));
 
             try
+                tic
                 [ ...
                     obj.mcmc.stats, ...
                     obj.mcmc.chains, ...
@@ -258,6 +261,7 @@ classdef cddm < handle
                 c = struct2cell(obj.mcmc.diagnostics.Rhat);
                 
                 obj.maxRhat = max([c{:}]);
+                obj.mcmc.eTime   = toc;
 
             catch me
                 disp( getReport( me, 'extended', 'hyperlinks', 'on' ) );
@@ -389,7 +393,7 @@ classdef cddm < handle
                 n = 1000;
             end
 
-            dx = randn;
+            dx = rand;
             dy = randn;
             bo = 1.0 + rand;
             nd = 0.1 + rand/5;
