@@ -1,3 +1,13 @@
+/*
+ *  This file is part of the JAGS-CDDM repository.
+ *
+ *  Source: https://github.com/joachimvandekerckhove/jags-cddm
+ *  Authors: Joachim Vandekerckhove and Adriana F. Chávez De la Peña
+ *
+ *  See README.md for instructions and licensing.
+ *
+ */
+
 #include <config.h>
 #include "DCDDMCARTN.h"
 #include "DCDDM.h"

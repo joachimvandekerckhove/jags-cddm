@@ -1,24 +1,10 @@
 /*
- *  Copyright (C) 2022 Joachim Vandekerckhove <joachim@uci.edu>
+ *  This file is part of the JAGS-CDDM repository.
  *
- *  When using this module, please cite:
- *      Wabersich, D., & Vandekerckhove, J. (2014). Extending JAGS: A
- *      tutorial on adding custom distributions to JAGS (with a
- *      diffusion model example). Behavior Research Methods, 46, 15-28.
+ *  Source: https://github.com/joachimvandekerckhove/jags-cddm
+ *  Authors: Joachim Vandekerckhove and Adriana F. Chávez De la Peña
  *
- *  This program is free software; you can redistribute it and/or modify
- *  it under the terms of the GNU Lesser General Public License as published by
- *  the Free Software Foundation; either version 2.1 of the License, or
- *  (at your option) any later version.
- *
- *  This program is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU Lesser General Public License for more details.
- *
- *  You should have received a copy of the GNU Lesser General Public License
- *  along with this program; if not, write to the Free Software
- *  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301  USA
+ *  See README.md for instructions and licensing.
  *
  */
 
