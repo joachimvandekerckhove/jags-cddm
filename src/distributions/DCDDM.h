@@ -10,43 +10,43 @@ namespace jags {
 
 		class DCDDM : public VectorDist
 		{
-		public:
+			public:
 
-			DCDDM(std::string const &call);
-			
-			unsigned int length(std::vector<unsigned int> const &len) const;
+				DCDDM(std::string const &call);
 
-			bool checkParameterLength(std::vector<unsigned int> const &len) const;
+				unsigned int length(std::vector<unsigned int> const &len) const;
 
-			void support(double *lower, double *upper, unsigned int length,
-					std::vector<double const *> const &par,
-					std::vector<unsigned int> const &len) const;
+				bool checkParameterLength(std::vector<unsigned int> const &len) const;
 
-			void typicalValue(double *x, unsigned int length,
-					std::vector<double const *> const &par,
-					std::vector<unsigned int> const &len,
-					double const *lower, double const *upper) const;
+				void support(double *lower, double *upper, unsigned int length,
+						std::vector<double const *> const &par,
+						std::vector<unsigned int> const &len) const;
 
-			bool isSupportFixed(std::vector<bool> const &fixmask) const;
+				void typicalValue(double *x, unsigned int length,
+						std::vector<double const *> const &par,
+						std::vector<unsigned int> const &len,
+						double const *lower, double const *upper) const;
 
-			unsigned int df(std::vector<unsigned int> const &len) const;
-			
-			double cddmLogDensity(double const c,
-					double const t,
-					double const driftlength,
-					double const driftangle,
-					double const bound,
-					double const ndt) const;
+				bool isSupportFixed(std::vector<bool> const &fixmask) const;
 
-			void cddmRandomSample(double *x,
-					double const driftlength,
-					double const driftangle,
-					double const bound,
-					double const ndt,
-					RNG *rng) const;
+				unsigned int df(std::vector<unsigned int> const &len) const;
+
+				double cddmLogDensity(double const c,
+						double const t,
+						double const driftlength,
+						double const driftangle,
+						double const bound,
+						double const ndt) const;
+
+				void cddmRandomSample(double *x,
+						double const driftlength,
+						double const driftangle,
+						double const bound,
+						double const ndt,
+						RNG *rng) const;
 
 		};
-		
+
 	} //namespace cddm
 
 } //namespace jags

@@ -1,8 +1,3 @@
-/* ==========================
-    Circular diffusion model
-   ==========================
-*/
-
 #include <config.h>
 #include "DCDDMPOLAR.h"
 #include "DCDDM.h"
@@ -18,15 +13,8 @@ using std::vector;
 using std::log;
 using std::string;
 
-//TODO: Make these inlines into class methods
-static inline double DRIFTLENGTH (vector<double const*> const &par) { return *par[0]; }
-static inline double DRIFTANGLE  (vector<double const*> const &par) { return *par[1]; }
-static inline double BOUND       (vector<double const*> const &par) { return *par[2]; }
-static inline double NDT         (vector<double const*> const &par) { return *par[3]; }
-
-#define smax 50  /* Maximum number of steps in infinite sum */
-
 namespace jags {
+
 	namespace cddm {
 
 		DCDDMPOLAR::DCDDMPOLAR()
@@ -46,22 +34,22 @@ namespace jags {
 
 			return true;
 		}
-		
+
 		double DCDDMPOLAR::driftLength(vector<double const*> const &par) 
 		{
 			return *par[0];
 		}
-		
+
 		double DCDDMPOLAR::driftAngle(vector<double const*> const &par) 
 		{
 			return *par[1];
 		}
-		
+
 		double DCDDMPOLAR::bound(vector<double const*> const &par) 
 		{
 			return *par[2];
 		}
-		
+
 		double DCDDMPOLAR::ndt(vector<double const*> const &par) 
 		{
 			return *par[3];

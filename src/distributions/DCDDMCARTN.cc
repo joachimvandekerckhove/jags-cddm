@@ -1,8 +1,3 @@
-/* ==========================
-    Circular diffusion model
-   ==========================
-*/
-
 #include <config.h>
 #include "DCDDMCARTN.h"
 #include "DCDDM.h"
@@ -19,6 +14,7 @@ using std::log;
 using std::string;
 
 namespace jags {
+
 	namespace cddm {
 
 		DCDDMCARTN::DCDDMCARTN()
@@ -36,23 +32,23 @@ namespace jags {
 
 			return true;
 		}
-		
-		double DCDDMCARTN::driftLength(vector<double const*> const &par) 
+
+		double DCDDMCARTN::driftLength(vector<double const*> const &par)
 		{
 			return std::sqrt( (*par[0]) * (*par[0]) + (*par[1]) * (*par[1]) );
 		}
-		
-		double DCDDMCARTN::driftAngle(vector<double const*> const &par) 
+
+		double DCDDMCARTN::driftAngle(vector<double const*> const &par)
 		{
 			return std::atan2(*par[1] , *par[0]);
 		}
-		
-		double DCDDMCARTN::bound(vector<double const*> const &par) 
+
+		double DCDDMCARTN::bound(vector<double const*> const &par)
 		{
 			return *par[2];
 		}
-		
-		double DCDDMCARTN::ndt(vector<double const*> const &par) 
+
+		double DCDDMCARTN::ndt(vector<double const*> const &par)
 		{
 			return *par[3];
 		}
@@ -86,7 +82,7 @@ namespace jags {
 			double driftangle  = DCDDMCARTN::driftAngle(par);
 			double bound       = DCDDMCARTN::bound(par);
 			double ndt         = DCDDMCARTN::ndt(par);
-			
+
 			cddmRandomSample(x, driftlength, driftangle, bound, ndt, rng);
 
 			return;

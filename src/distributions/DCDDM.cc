@@ -1,8 +1,3 @@
-/* ==========================
-    Circular diffusion model
-   ==========================
-*/
-
 #include <config.h>
 #include "DCDDM.h"
 
@@ -20,6 +15,7 @@ using std::string;
 #define smax 50  /* Maximum number of steps in infinite sum */
 
 namespace jags {
+
 	namespace cddm {
 
 		const double inv2pi = 0.159154943091895;
@@ -54,7 +50,7 @@ namespace jags {
 		DCDDM::DCDDM(std::string const &call)
 			: VectorDist(call, 4)
 		{}
-		
+
 		unsigned int DCDDM::length(vector<unsigned int> const &len) const
 		{
 			return 2;
@@ -98,7 +94,7 @@ namespace jags {
 		{
 			return 1;
 		}
-		
+
 		double DCDDM::cddmLogDensity(double const c,
 				double const t,
 				double const driftlength,
