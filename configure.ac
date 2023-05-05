@@ -11,7 +11,7 @@ AC_SUBST(JAGS_MINOR)
 AC_CANONICAL_HOST
 AC_CONFIG_SRCDIR([src/distributions/DCDDMPOLAR.cc])
 AC_CONFIG_HEADERS([config.h])
-AM_INIT_AUTOMAKE([subdir-objects])
+AM_INIT_AUTOMAKE([subdir-objects foreign])
 
 dnl libtool and ltdl configuration
 LT_PREREQ(2.2.6)
