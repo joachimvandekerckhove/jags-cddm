@@ -412,8 +412,8 @@ classdef cddm < handle
             fprintf(' + %8s + %12s + %12s +\n', '--------', '------------', '------------')
             
             fprintf(' + %8s + %12s + %12s +\n', '--------', '------------', '------------')
-            fprintf(' | %8s | %12.4g | %12.4g |\n', 'Driftx2', out.trueDriftLength, out.estDriftLength)
-            fprintf(' | %8s | %12.4g | %12.4g |\n', 'Drifty2', out.trueDriftAngle, out.estDriftAngle)
+            fprintf(' | %8s | %12.4g | %12.4g |\n', 'DriftLn', out.trueDriftLength, out.estDriftLength)
+            fprintf(' | %8s | %12.4g | %12.4g |\n', 'DriftAn', out.trueDriftAngle, out.estDriftAngle)
             fprintf(' | %8s | %12.4g | %12.4g |\n', 'Bound2' , out.trueBound, out.estBound2)
             fprintf(' | %8s | %12.4g | %12.4g |\n', 'Nondt2' , out.trueNondt, out.estNondt2)
             fprintf(' + %8s + %12s + %12s +\n', '--------', '------------', '------------')

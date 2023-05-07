@@ -34,23 +34,10 @@ namespace jags {
 		bool DCDDMCARTN::checkParameterValue(vector<double const *> const &par,
 				vector<unsigned int> const &len) const
 		{
-			double bound = DCDDMCARTN::bound(par);
-			double ndt   = DCDDMCARTN::ndt(par);
-
-			if (ndt   < 0)  return false;
-			if (bound < 0)  return false;
+			if (DCDDMCARTN::eta(par) < 0)  return false;
+			if (DCDDMCARTN::tau(par) < 0)  return false;
 
 			return true;
-		}
-
-		double DCDDMCARTN::driftLength(vector<double const*> const &par)
-		{
-			return std::sqrt( (*par[0]) * (*par[0]) + (*par[1]) * (*par[1]) );
-		}
-
-		double DCDDMCARTN::driftAngle(vector<double const*> const &par)
-		{
-			return std::atan2(*par[1] , *par[0]);
 		}
 
 		double DCDDMCARTN::mux(vector<double const*> const &par)
@@ -63,12 +50,12 @@ namespace jags {
 			return *par[1];
 		}
 
-		double DCDDMCARTN::bound(vector<double const*> const &par)
+		double DCDDMCARTN::eta(vector<double const*> const &par)
 		{
 			return *par[2];
 		}
 
-		double DCDDMCARTN::ndt(vector<double const*> const &par)
+		double DCDDMCARTN::tau(vector<double const*> const &par)
 		{
 			return *par[3];
 		}
@@ -79,15 +66,13 @@ namespace jags {
 				vector<unsigned int> const &len,
 				double const *lower, double const *upper) const
 		{
-			double c = x[0];
-			double t = x[1];
-
-			double bound = DCDDMCARTN::bound(par);
-			double ndt   = DCDDMCARTN::ndt(par);
-			double mux   = DCDDMCARTN::mux(par);
-			double muy   = DCDDMCARTN::muy(par);
-
-			double logPDF = cddmLogDensity(c, t, mux, muy, bound, ndt);
+			double logPDF = cddmLogDensity(
+				x[0],
+				x[1],
+				DCDDMCARTN::mux(par),
+				DCDDMCARTN::muy(par),
+				DCDDMCARTN::eta(par),
+				DCDDMCARTN::tau(par));
 
 			return isnan(logPDF) ? JAGS_NEGINF : logPDF;
 		}
@@ -98,12 +83,13 @@ namespace jags {
 				double const *lower, double const *upper,
 				RNG *rng) const
 		{
-			double driftlength = DCDDMCARTN::driftLength(par);
-			double driftangle  = DCDDMCARTN::driftAngle(par);
-			double bound       = DCDDMCARTN::bound(par);
-			double ndt         = DCDDMCARTN::ndt(par);
-
-			cddmRandomSample(x, driftlength, driftangle, bound, ndt, rng);
+			cddmRandomSample(
+				x,
+				DCDDMCARTN::mux(par),
+				DCDDMCARTN::muy(par),
+				DCDDMCARTN::eta(par),
+				DCDDMCARTN::tau(par),
+				rng);
 
 			return;
 		}

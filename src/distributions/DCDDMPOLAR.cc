@@ -34,23 +34,19 @@ namespace jags {
 		bool DCDDMPOLAR::checkParameterValue(vector<double const *> const &par,
 				vector<unsigned int> const &len) const
 		{
-			double driftLength = DCDDMPOLAR::driftLength(par);
-			double bound       = DCDDMPOLAR::bound(par);
-			double ndt         = DCDDMPOLAR::ndt(par);
-
-			if (driftLength < 0)  return false;
-			if (ndt         < 0)  return false;
-			if (bound       < 0)  return false;
+			if (DCDDMPOLAR::driftLength(par) < 0)  return false;
+			if (DCDDMPOLAR::eta(par)         < 0)  return false;
+			if (DCDDMPOLAR::tau(par)         < 0)  return false;
 
 			return true;
 		}
 
-		double DCDDMPOLAR::driftLength(vector<double const*> const &par) 
+		double DCDDMPOLAR::driftLength(vector<double const*> const &par)
 		{
 			return *par[0];
 		}
 
-		double DCDDMPOLAR::driftAngle(vector<double const*> const &par) 
+		double DCDDMPOLAR::driftAngle(vector<double const*> const &par)
 		{
 			return *par[1];
 		}
@@ -64,13 +60,13 @@ namespace jags {
 		{
 			return (*par[0]) * sin(*par[1]);
 		}
-		
-		double DCDDMPOLAR::bound(vector<double const*> const &par) 
+
+		double DCDDMPOLAR::eta(vector<double const*> const &par)
 		{
 			return *par[2];
 		}
 
-		double DCDDMPOLAR::ndt(vector<double const*> const &par) 
+		double DCDDMPOLAR::tau(vector<double const*> const &par)
 		{
 			return *par[3];
 		}
@@ -81,15 +77,14 @@ namespace jags {
 				vector<unsigned int> const &len,
 				double const *lower, double const *upper) const
 		{
-			double c = x[0];
-			double t = x[1];
-
-			double bound = DCDDMPOLAR::bound(par);
-			double ndt   = DCDDMPOLAR::ndt(par);
-			double mux   = DCDDMPOLAR::mux(par);
-			double muy   = DCDDMPOLAR::muy(par);
-
-			double logPDF = cddmLogDensity(c, t, mux, muy, bound, ndt);
+			double logPDF = cddmLogDensity(
+				x[0], 
+				x[1],
+				DCDDMPOLAR::mux(par),
+				DCDDMPOLAR::muy(par),
+				DCDDMPOLAR::eta(par),
+				DCDDMPOLAR::tau(par)
+			);
 
 			return isnan(logPDF) ? JAGS_NEGINF : logPDF;
 		}
@@ -100,12 +95,14 @@ namespace jags {
 				double const *lower, double const *upper,
 				RNG *rng) const
 		{
-			double driftlength = DCDDMPOLAR::driftLength(par);
-			double driftangle  = DCDDMPOLAR::driftAngle(par);
-			double bound       = DCDDMPOLAR::bound(par);
-			double ndt         = DCDDMPOLAR::ndt(par);
-
-                        cddmRandomSample(x, driftlength, driftangle, bound, ndt, rng);
+			cddmRandomSample(
+				x,
+				DCDDMPOLAR::mux(par),
+				DCDDMPOLAR::muy(par),
+				DCDDMPOLAR::eta(par),
+				DCDDMPOLAR::tau(par),
+				rng
+			);
 
 			return;
 		}

@@ -37,17 +37,13 @@ namespace jags {
 						double const *lower, double const *upper,
 						RNG *rng) const;
 
-				static double driftLength(std::vector<double const*> const &par);
-
-				static double driftAngle(std::vector<double const*> const &par);
-
 				static double mux(std::vector<double const*> const &par);
 
 				static double muy(std::vector<double const*> const &par);
 
-				static double bound(std::vector<double const*> const &par);
+				static double eta(std::vector<double const*> const &par);
 
-				static double ndt(std::vector<double const*> const &par);
+				static double tau(std::vector<double const*> const &par);
 		};
 	} //namespace cddm
 

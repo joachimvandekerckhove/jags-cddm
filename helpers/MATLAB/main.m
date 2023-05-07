@@ -1,7 +1,7 @@
 % Set the sample size for the cddm.rnd function and the number of
 % iterations
-sampleSize = 200;
-nIter      = 3;
+sampleSize = 100;
+nIter      = 30;
 
 % Loop over nIter and call the rnd method of the cddm class, 
 % storing the output in the output array

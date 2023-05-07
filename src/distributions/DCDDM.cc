@@ -112,18 +112,17 @@ namespace jags {
 				double const eta,
 				double const tau) const
 		{
-			double inveta2 = 1.0 / (eta * eta);
-
-			double exponand, sum = 0.0, logPDF;
+			double inveta2 = 1.0 / (eta * eta),
+				nhdt = -0.5 * (t - tau),
+				sum  =  0.0;
 
 			for (int i=0; i<smax; i++) {
-				exponand = j0_squared[i] * (t - tau) * inveta2 * -0.5;
-				sum += exp(exponand) * j0_over_J1_of_j0[i];
+				sum += exp(j0_squared[i] * inveta2 * nhdt) * j0_over_J1_of_j0[i];
 			}
 
-			logPDF = log(sum) + log(inveta2) - log2pi;
-			logPDF += eta * (mux * cos(c) + muy * sin(c));
-			logPDF -= (mux * mux + muy * muy) * (t - tau) * 0.5;
+			double logPDF = log(sum) + log(inveta2) - log2pi;
+			logPDF += (mux * cos(c) + muy * sin(c)) * eta;
+			logPDF += (mux * mux    + muy * muy   ) * nhdt;
 
 			return isnan(logPDF) ? JAGS_NEGINF : logPDF;
 		}
