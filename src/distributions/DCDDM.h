@@ -43,16 +43,16 @@ namespace jags {
 
 				double cddmLogDensity(double const c,
 						double const t,
-						double const driftlength,
-						double const driftangle,
-						double const bound,
-						double const ndt) const;
+						double const mux,
+						double const muy,
+						double const eta,
+						double const tau) const;
 
 				void cddmRandomSample(double *x,
-						double const driftlength,
-						double const driftangle,
-						double const bound,
-						double const ndt,
+						double const mux,
+						double const muy,
+						double const eta,
+						double const tau,
 						RNG *rng) const;
 
 		};

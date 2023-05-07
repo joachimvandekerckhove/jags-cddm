@@ -53,6 +53,16 @@ namespace jags {
 			return std::atan2(*par[1] , *par[0]);
 		}
 
+		double DCDDMCARTN::mux(vector<double const*> const &par)
+		{
+			return *par[0];
+		}
+
+		double DCDDMCARTN::muy(vector<double const*> const &par)
+		{
+			return *par[1];
+		}
+
 		double DCDDMCARTN::bound(vector<double const*> const &par)
 		{
 			return *par[2];
@@ -72,12 +82,12 @@ namespace jags {
 			double c = x[0];
 			double t = x[1];
 
-			double driftlength = DCDDMCARTN::driftLength(par);
-			double driftangle  = DCDDMCARTN::driftAngle(par);
-			double bound       = DCDDMCARTN::bound(par);
-			double ndt         = DCDDMCARTN::ndt(par);
+			double bound = DCDDMCARTN::bound(par);
+			double ndt   = DCDDMCARTN::ndt(par);
+			double mux   = DCDDMCARTN::mux(par);
+			double muy   = DCDDMCARTN::muy(par);
 
-			double logPDF = cddmLogDensity(c, t, driftlength, driftangle, bound, ndt);
+			double logPDF = cddmLogDensity(c, t, mux, muy, bound, ndt);
 
 			return isnan(logPDF) ? JAGS_NEGINF : logPDF;
 		}

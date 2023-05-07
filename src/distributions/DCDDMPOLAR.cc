@@ -55,6 +55,16 @@ namespace jags {
 			return *par[1];
 		}
 
+		double DCDDMPOLAR::mux(vector<double const*> const &par)
+		{
+			return (*par[0]) * cos(*par[1]) ;
+		}
+
+		double DCDDMPOLAR::muy(vector<double const*> const &par)
+		{
+			return (*par[0]) * sin(*par[1]);
+		}
+		
 		double DCDDMPOLAR::bound(vector<double const*> const &par) 
 		{
 			return *par[2];
@@ -74,12 +84,12 @@ namespace jags {
 			double c = x[0];
 			double t = x[1];
 
-			double driftlength = DCDDMPOLAR::driftLength(par);
-			double driftangle  = DCDDMPOLAR::driftAngle(par);
-			double bound       = DCDDMPOLAR::bound(par);
-			double ndt         = DCDDMPOLAR::ndt(par);
+			double bound = DCDDMPOLAR::bound(par);
+			double ndt   = DCDDMPOLAR::ndt(par);
+			double mux   = DCDDMPOLAR::mux(par);
+			double muy   = DCDDMPOLAR::muy(par);
 
-			double logPDF = cddmLogDensity(c, t, driftlength, driftangle, bound, ndt);
+			double logPDF = cddmLogDensity(c, t, mux, muy, bound, ndt);
 
 			return isnan(logPDF) ? JAGS_NEGINF : logPDF;
 		}

@@ -107,35 +107,32 @@ namespace jags {
 
 		double DCDDM::cddmLogDensity(double const c,
 				double const t,
-				double const driftlength,
-				double const driftangle,
-				double const bound,
-				double const ndt) const
+				double const mux,
+				double const muy,
+				double const eta,
+				double const tau) const
 		{
-			double inva2 = 1.0 / (bound * bound);
+			double inveta2 = 1.0 / (eta * eta);
 
 			double exponand, sum = 0.0, logPDF;
 
-			double mu1 = driftlength * cos(driftangle),
-			       mu2 = driftlength * sin(driftangle);
-
 			for (int i=0; i<smax; i++) {
-				exponand = j0_squared[i] * (t - ndt) * inva2 * -0.5;
+				exponand = j0_squared[i] * (t - tau) * inveta2 * -0.5;
 				sum += exp(exponand) * j0_over_J1_of_j0[i];
 			}
 
-			logPDF = log(sum) + log(inva2);
-			logPDF += bound * (mu1 * cos(c) + mu2 * sin(c));
-			logPDF -= (driftlength * driftlength * (t - ndt)) * 0.5;
+			logPDF = log(sum) + log(inveta2) - log2pi;
+			logPDF += eta * (mux * cos(c) + muy * sin(c));
+			logPDF -= (mux * mux + muy * muy) * (t - tau) * 0.5;
 
 			return isnan(logPDF) ? JAGS_NEGINF : logPDF;
 		}
 
 		void DCDDM::cddmRandomSample(double *x,
-				double const driftlength,
-				double const driftangle,
-				double const bound,
-				double const ndt,
+				double const mux,
+				double const muy,
+				double const eta,
+				double const tau,
 				RNG *rng) const
 		{
                         x[0] = 0.0;
