@@ -1,7 +1,7 @@
 % Set the sample size for the cddm.rnd function and the number of
 % iterations
-sampleSize =  40;
-nIter      = 100;
+sampleSize = 200;
+nIter      = 3;
 
 % Loop over nIter and call the rnd method of the cddm class, 
 % storing the output in the output array
@@ -35,10 +35,11 @@ end
 clf
 
 % Create a figure with subplots for each parameter
-fig = figure;
+red = [output.maxRhat] > 1.05;
 for p = 1:nParameters
     subplot(2, 3, p)
-    plot(xValue(:,p), yValue(:,p), '.')
+    plot(xValue(:,p), yValue(:,p), '.', ...
+        xValue(red,p), yValue(red,p), 'r.')
     axis equal
     grid on
     bisector
