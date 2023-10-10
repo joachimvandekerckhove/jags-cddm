@@ -1,16 +1,36 @@
-# JAGS-CDDM
+# JAGS-CDDM: Circular Drift Diffusion Model in JAGS
 
 Implements the circular drift diffusion model in JAGS.
 
-`git clone`, then `./makedcddm.sh` should install the module.
+## Installation
+
+1. Clone the repository:
+
+```{bash}
+git clone https://github.com/joachimvandekerckhove/jags-cddm.git
+```
+
+2. Navigate to the cloned directory and execute the installation script:
+
+```{bash}
+./makedcddm.sh
+```
+
+## Usage
 
 In JAGS, `load cddm` as a module.  This exposes two new distributions:
 
-Use `X[1:2,] ~ dcddmcartn(driftx, drifty, bound, nondecision)` for the
-Cartesian parameter set.
+* For the Cartesian parameter set:
 
-Use `X[1:2,] ~ dcddmpolar(driftLength, driftAngle, bound, nondecision)` for the
-polar parameter set.
+```{r}
+X[1:2,] ~ dcddmcartn(driftx, drifty, bound, nondecision)
+```
+
+* For the polar parameter set:
+
+```{r}
+X[1:2,] ~ dcddmpolar(driftLength, driftAngle, bound, nondecision)
+```
 
 In both cases, `X[1,]` is choice in radians and `X[2,]` is RT in seconds.
 
@@ -18,12 +38,24 @@ In both cases, `X[1,]` is choice in radians and `X[2,]` is RT in seconds.
 ## Pre-release
 
 This is an untested pre-release.  Do not use unless you know what you are doing
-and how to evaluate the accuracy of results.
+and know how to evaluate the accuracy of results.
+
+
+## Ongoing work
+
+1. Implement an efficient and robust sampler [in progress]
+2. Implement the more robust likelihood calculation in Smith, Garrett, and Zhou
+   (2023; _Computational Brain & Behavior_, 1-13)
+3. Implement integrated trial-to-trial variability
 
 
 ## Citation
 
-When using this module, please cite:
+If you use this module, please cite:
+
+    Villarreal, M., Chávez, A., Mistry, P. K., Menon, V., Vandekerckhove, J., &
+      Lee, M. D. (2023, August 8). Bayesian graphical modeling with the circular
+      drift diffusion model. https://doi.org/10.31234/osf.io/gjnwk
 
     Wabersich, D., & Vandekerckhove, J. (2014). Extending JAGS: A
       tutorial on adding custom distributions to JAGS (with a
