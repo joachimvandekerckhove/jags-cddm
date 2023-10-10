@@ -43,10 +43,12 @@ and know how to evaluate the accuracy of results.
 
 ## Ongoing work
 
-1. Implement an efficient and robust sampler [in progress]
-2. Implement the more robust likelihood calculation in Smith, Garrett, and Zhou
+1. Implement and test an efficient and robust sampler [in progress]
+2. Implement and test the more robust likelihood calculation in Smith, Garrett, and Zhou
    (2023; _Computational Brain & Behavior_, 1-13)
-3. Implement integrated trial-to-trial variability
+3. Implement and test integrated trial-to-trial variability as discussed in Zhou, Osth,
+   Lilburn, and Smith (2021; _Psychonomic Bulletin & Review, 28,_ 1112-1130).
+
 
 
 ## Citation
